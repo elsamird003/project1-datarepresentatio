@@ -39,75 +39,42 @@ char convertNumberToChar(int n)
 // and multiplication is from going up
 Data convert_to_base_n(Data src, unsigned char n) // n is the base.
 {
+  int decimal = 0;
+  int value = 0;
+  int base = src.base;
+  int counter = 0;
   Data new_data;
   new_data.data = NULL;
+
   src.sign = 0;
-
-  if (src.base == n)
-  {
-    return src;
-  }
-
-  // get the value
-  // times the base to the power of the index
-
-  // first finidn what rthe base is and from ant base  you multiply the digit the base bt the base of digit position n^0 then n^1 and so on!!!!!
-  // values * base to the power of the position. convert any base to decimal
-  // to convert to any base i need to grab the lenghts of the linked list, invert the or lenght of the linked list. After that i need to grab value and then multuply it by the base to the power of the lenght.
-
-  // first try to convert data to base 10 because it is easier to convert to any
-
-  // We start from right to left.
-
-  // convert the data to base 10
-  int decimalValue = 0;
   DataNode *curData = src.data;
-  int counter = 0;
-  // curData->number = convertNumberToChar(decimalValue);
 
-  // got to check from right to left numbers.
-
-  int length = src.len;
-  // //  while(curr != NULL) {
-
-  //     value += pow(base, i) * convertCharToNumber(curr->number);
-
-  //     curr = curr->next;
-
-  //     i++;
-
-  //  }
   while (curData != NULL)
   {
-    decimalValue += convertCharToNumber(curData->number) * pow(src.base, counter);
+
+    value += pow(base, counter) * convertCharToNumber(curData->number);
+
+    curData= curData->next;
+
     counter++;
-    curData = curData->next;
   }
-
-  char charNum = convertNumberToChar(decimalValue);
-  int temp_val = decimalValue;
-
-
-   while (decimalValue > 0)
-{
+ DataNode *tail = NULL;
+  while (value > 0) {
     DataNode *new_node = malloc(sizeof(DataNode));
-    new_node->number = convertNumberToChar(decimalValue % n);
-     
-     if (curData == NULL){
-      new_data.data = new_node;
-      new_data.data->next = NULL;
-     }
-     else{
-       curData->next = new_node;
-       new_node->next = NULL;
-     }
-
-     curData = new_node;
-      decimalValue = decimalValue / n;
-      new_data.len++;
+    new_node->number = convertNumberToChar(value % n);
+    value /= n;
+    new_node->next = NULL;
+    
+    if (new_data.data == NULL) {
+        new_data.data = new_node;
+        tail = new_node;
+    } else {
+        tail->next = new_node;
+        tail = new_node;
+    }
+    
+     new_data.len++;
 }
-
-
 
   return new_data;
 }
