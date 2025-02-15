@@ -34,10 +34,10 @@ char convertNumberToChar(int n)
   }
 }
 
-// converting up words method. = 
+// converting up words method. =
 // division notes, for going down.
-// and multiplication is from going up 
-Data convert_to_base_n(Data src, unsigned char n)  // n is the base.
+// and multiplication is from going up
+Data convert_to_base_n(Data src, unsigned char n) // n is the base.
 {
   Data new_data;
   new_data.data = NULL;
@@ -65,56 +65,51 @@ Data convert_to_base_n(Data src, unsigned char n)  // n is the base.
   int counter = 0;
   // curData->number = convertNumberToChar(decimalValue);
 
-
-// got to check from right to left numbers. 
+  // got to check from right to left numbers.
 
   int length = src.len;
+  // //  while(curr != NULL) {
 
+  //     value += pow(base, i) * convertCharToNumber(curr->number);
+
+  //     curr = curr->next;
+
+  //     i++;
+
+  //  }
   while (curData != NULL)
   {
-    decimalValue += convertCharToNumber(curData->number) * pow(src.base,length - counter - 1);
-    curData = curData->next;
+    decimalValue += convertCharToNumber(curData->number) * pow(src.base, counter);
     counter++;
-  } 
-  
+    curData = curData->next;
+  }
+
   char charNum = convertNumberToChar(decimalValue);
   int temp_val = decimalValue;
-  int temp = 0;
-  while (curData != NULL)
-  {     
-        for(int i = 0; i <  strlen(charNum); i++)
-        {
-          DataNode *new_node = (DataNode *)malloc(sizeof(DataNode));
-          temp = convertNumberToChar(temp_val) % n;
-          temp_val = temp_val / n;
 
-          new_node->number = temp;
-          new_node->next = new_data.data;
-          new_data.data = new_node;
-          new_data.number_bits = src.number_bits;
-          new_data.len++;
- 
-      }
-    
-    
-   
-  }
- //printf("decimalValue HERER!@@@@@@@@@@@@@@@@ %c\n", decimalValue);
-  // DataNode *new_node = (DataNode *)malloc(sizeof(DataNode));
-  // new_node->number = convertNumberToChar(n * src.base * p_power);
-  // new_node->next = new_data.data;
-  // new_data.data = new_node;
-  // src.data = src.data->next;
-  // p_power = p_power / src.base;
 
-  // // new_node->number = convertNumberToChar(n % src.base);
-  // new_node->next = new_data.data;
-  // new_data.data = new_node;
-  // new_data.data = new_node;
- //printf("decimalValue HERER!@@@@@@@@@@@@@@@@ %c\n", convertchartonum(new_data.data->number));
-  new_data.base = n;
+   while (decimalValue > 0)
+{
+    DataNode *new_node = malloc(sizeof(DataNode));
+    new_node->number = convertNumberToChar(decimalValue % n);
+     
+     if (curData == NULL){
+      new_data.data = new_node;
+      new_data.data->next = NULL;
+     }
+     else{
+       curData->next = new_node;
+       new_node->next = NULL;
+     }
+
+     curData = new_node;
+      decimalValue = decimalValue / n;
+      new_data.len++;
+}
+
+
+
   return new_data;
- 
 }
 
 Data convert_int_to_data(int number, unsigned char base,
