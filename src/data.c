@@ -48,7 +48,8 @@ Data convert_to_base_n(Data src, unsigned char n) // n is the base.
 
   src.sign = 0;
   DataNode *curData = src.data;
-
+  
+  // convert to base 10
   while (curData != NULL)
   {
 
@@ -58,20 +59,21 @@ Data convert_to_base_n(Data src, unsigned char n) // n is the base.
 
     counter++;
   }
+  
  DataNode *tail = NULL;
   while (value > 0) {
-    DataNode *new_node = malloc(sizeof(DataNode));
+    DataNode *new_node = malloc(sizeof(DataNode));    
     new_node->number = convertNumberToChar(value % n);
-    value /= n;
-    new_node->next = NULL;
-    
-    if (new_data.data == NULL) {
+
+    if (curData == NULL) {
         new_data.data = new_node;
-        tail = new_node;
+         new_data.data->next = NULL;
     } else {
-        tail->next = new_node;
-        tail = new_node;
+        curData->next = new_node;
+        new_node->next = NULL;
     }
+    curData = new_node;
+    value /= n;
     
      new_data.len++;
 }
